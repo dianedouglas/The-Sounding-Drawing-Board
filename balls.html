@@ -162,7 +162,6 @@
             ball.vx *= (1 - collisionDamper);
             newSound3.makeSound(1600, 3);
             newSound3.stopSound(3);
-
           }
         }
       }
@@ -228,35 +227,10 @@
       });
       animate(canvas, balls, time, mousePos);
 
-      // var sound = {
-      //   initialize: function(pitch, wave){
-      //     oscillator = context.createOscillator(); // Create sound source
-      //     oscillator.frequency.value = pitch; // frequency in hertz
-      //     oscillator.type = wave; // Square wave
-      //     oscillator.connect(context.destination); // Connect sound to output
-      //     console.log("Larry")
-      //   },
-      //   makeNoise: function(dur){
-      //     oscillator.noteOn(0); // Play instantly
-      //     console.log("Curly")
-      //     oscillator.noteOff(dur);
-      //   }
-      // }
-
-      // var makeSound = function(pitch, type) {
-      //   var newSound = Object.create(sound);
-      //   newSound.initialize(pitch, type);
-      //   newSound.makeNoise(5);
-      //   console.log("Moe")
-      // }
-
       var audioContext = new webkitAudioContext();
       audioContext.sampleRate = 44100;
       var Sound = {
         initialize: function(){
-
-
-          console.log("Moe");
           this.osc = audioContext.createOscillator();
           this.osc.noteOn(0);
           this.gainNode = audioContext.createGain();
@@ -265,33 +239,25 @@
           this.gainNode.connect(audioContext.destination);
         },
         makeSound: function(pitch, wave){
-          console.log("Larry");
           var now = audioContext.currentTime;
           this.osc.frequency.setValueAtTime(pitch, now);
           this.gainNode.gain.setValueAtTime(1, now);
           console.log(now);
         },
         stopSound: function(duration){
-          console.log("Curly");
           var offTime = audioContext.currentTime + duration;
           this.gainNode.gain.setValueAtTime(0, offTime);
-
         }
       }
 
-
       var newSound0 = Object.create(Sound);
       newSound0.initialize();
-      console.log("Athos");
       var newSound1 = Object.create(Sound);
       newSound1.initialize();
-      console.log("Porthos");
       var newSound2 = Object.create(Sound);
       newSound2.initialize();
-      console.log("Aramis");
       var newSound3 = Object.create(Sound);
       newSound3.initialize();
-      console.log("Dartangine");
 
     </script>
   </body>
