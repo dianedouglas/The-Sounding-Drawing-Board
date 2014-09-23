@@ -131,8 +131,8 @@
             ball.y = canvas.height - ball.radius - 2;
             ball.vy *= -1;
             ball.vy *= (1 - collisionDamper);
-            makeSound(200, 0);
-            stopSound(3);
+            newSound0.makeSound(200, 0);
+            newSound0.stopSound(3);
           }
 
           // ceiling condition
@@ -140,8 +140,9 @@
             ball.y = ball.radius + 2;
             ball.vy *= -1;
             ball.vy *= (1 - collisionDamper);
-            makeSound(400, 1);
-            stopSound(3);
+            newSound1.makeSound(400, 1);
+            newSound1.stopSound(3);
+
           }
 
           // right wall condition
@@ -149,8 +150,9 @@
             ball.x = canvas.width - ball.radius - 2;
             ball.vx *= -1;
             ball.vx *= (1 - collisionDamper);
-            makeSound(800, 2);
-            stopSound(3);
+            newSound2.makeSound(800, 2);
+            newSound2.stopSound(3);
+
           }
 
           // left wall condition
@@ -158,8 +160,9 @@
             ball.x = ball.radius + 2;
             ball.vx *= -1;
             ball.vx *= (1 - collisionDamper);
-            makeSound(1600, 3);
-            stopSound(3);
+            newSound3.makeSound(1600, 3);
+            newSound3.stopSound(3);
+
           }
         }
       }
@@ -249,25 +252,46 @@
 
       var audioContext = new webkitAudioContext();
       audioContext.sampleRate = 44100;
-      var osc = audioContext.createOscillator();
-      osc.noteOn(0);
-      var gainNode = audioContext.createGain();
-      gainNode.gain.value = 0;
-      osc.connect(gainNode);
-      gainNode.connect(audioContext.destination);
+      var Sound = {
+        initialize: function(){
 
-      var makeSound = function(pitch, type) {
-        var frequency = pitch;
-        var now = audioContext.currentTime;
-        osc.frequency.setValueAtTime(frequency, now);
-        gainNode.gain.setValueAtTime(1, now);
+
+          console.log("Moe");
+          this.osc = audioContext.createOscillator();
+          this.osc.noteOn(0);
+          this.gainNode = audioContext.createGain();
+          this.gainNode.gain.value = 0;
+          this.osc.connect(this.gainNode);
+          this.gainNode.connect(audioContext.destination);
+        },
+        makeSound: function(pitch, wave){
+          console.log("Larry");
+          var now = audioContext.currentTime;
+          this.osc.frequency.setValueAtTime(pitch, now);
+          this.gainNode.gain.setValueAtTime(1, now);
+          console.log(now);
+        },
+        stopSound: function(duration){
+          console.log("Curly");
+          var offTime = audioContext.currentTime + duration;
+          this.gainNode.gain.setValueAtTime(0, offTime);
+
+        }
       }
 
-      var stopSound = function(duration) {
-        var offTime = audioContext.currentTime + duration;
-        gainNode.gain.setValueAtTime(0, offTime);
-      }
 
+      var newSound0 = Object.create(Sound);
+      newSound0.initialize();
+      console.log("Athos");
+      var newSound1 = Object.create(Sound);
+      newSound1.initialize();
+      console.log("Porthos");
+      var newSound2 = Object.create(Sound);
+      newSound2.initialize();
+      console.log("Aramis");
+      var newSound3 = Object.create(Sound);
+      newSound3.initialize();
+      console.log("Dartangine");
 
     </script>
   </body>
